@@ -188,7 +188,6 @@ export default {
 					address:this.pickerText,
 					createTime:this.user.createTime
 				};
-				console.log(data+"333333333333333333333333")
 				this.$H.post('/user/update',data).then(res=>{
 					console.log(res);
 					this.$store.commit('editUserInfo',data);
