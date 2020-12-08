@@ -7,6 +7,7 @@ import com.gem.vlog.common.Gender;
 import com.gem.vlog.mapper.UserMapper;
 import com.gem.vlog.model.dto.LoginDto;
 import com.gem.vlog.model.dto.PhoneLoginDto;
+import com.gem.vlog.model.dto.WxLoginDto;
 import com.gem.vlog.model.entity.User;
 import com.gem.vlog.service.RedisService;
 import com.gem.vlog.service.UserService;
@@ -102,9 +103,13 @@ public class UserServiceImpl implements UserService {
     public User updateUser(User user) {
 //先查出数据库原用户信息
         User saveUser = getUser(user.getPhone());
-//相应字段做修改,注意前端传值的时候这些字段如果没有修改也需要传原值,以免被覆盖为空
-        saveUser.setPassword(DigestUtils.md5Hex(user.getPassword()));
-
+        //密码字段,如果是修改密码的请求,需要将传来的密码加密
+        if (!user.getPassword().equals(saveUser.getPassword())) {
+            saveUser.setPassword(DigestUtils.md5Hex(user.getPassword()));
+        }else {
+            //否则就是修改其他信息,密码直接赋值,以免被覆盖为空
+            saveUser.setPassword(user.getPassword());
+        }
         saveUser.setNickname(user.getNickname());
         saveUser.setAvatar(user.getAvatar());
         saveUser.setGender(user.getGender());
@@ -147,6 +152,33 @@ public class UserServiceImpl implements UserService {
         //关闭OSSClient
         ossClient.shutdown();
         return uploadFileName;
+    }
+
+    @Override
+    public User wxLogin(WxLoginDto wxLoginDto) {
+        User user=null;
+        try {
+            user = userMapper.findUserByOpenId(wxLoginDto.getWxOpenId());
+        } catch (SQLException throwables) {
+            System.err.println("根据微信OpenId查找用户出现异常");
+        }
+        //新用户
+        if (user == null) {
+            user = User.builder()
+                    .wxOpenId(wxLoginDto.getWxOpenId())
+                    .nickname(wxLoginDto.getNickname())
+                    .avatar(wxLoginDto.getAvatar())
+                    .gender(wxLoginDto.getGender())
+                    .createTime(LocalDateTime.now())
+                    .build();
+            try {
+                userMapper.insert(user);
+            } catch (SQLException throwables) {
+                System.out.println("新增用户出现异常");
+            }
+        }
+        //老用户
+        return  user;
     }
 
 }

@@ -2,6 +2,7 @@ package com.gem.vlog.service;
 
 import com.gem.vlog.model.dto.LoginDto;
 import com.gem.vlog.model.dto.PhoneLoginDto;
+import com.gem.vlog.model.dto.WxLoginDto;
 import com.gem.vlog.model.entity.User;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -48,4 +49,12 @@ public interface UserService {
      * @return 上传后的url
      */
     String uploadFile(MultipartFile file);
+
+    /**
+     *
+     * @param wxLoginDto 入参
+     * @return boolean
+     */
+    User wxLogin(WxLoginDto wxLoginDto);
+
 }

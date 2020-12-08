@@ -5,6 +5,7 @@ import com.gem.vlog.common.ResponseResult;
 import com.gem.vlog.common.ResultCode;
 import com.gem.vlog.model.dto.LoginDto;
 import com.gem.vlog.model.dto.PhoneLoginDto;
+import com.gem.vlog.model.dto.WxLoginDto;
 import com.gem.vlog.model.entity.User;
 import com.gem.vlog.service.RedisService;
 import com.gem.vlog.service.UserService;
@@ -88,7 +89,7 @@ public class UserController {
     @PostMapping(value = "/upload")
     public ResponseResult uploadFile(MultipartFile file) {
         //声明图片的地址路径,返回到前端
-        String path=null;
+        String path = null;
         //判断文件不能为空
         if (file != null) {
             //获得文件上传的名称
@@ -103,5 +104,16 @@ public class UserController {
             path = fileResource.getOssHost() + path;
         }
         return ResponseResult.success(path);
+    }
+
+    @PostMapping(value = "/wxLogin")
+    public ResponseResult wxLogin(@RequestBody WxLoginDto wxLoginDto) {
+        log.info("wxLoginDto" + wxLoginDto);
+        User user = userService.wxLogin(wxLoginDto);
+        if (user != null) {
+            return ResponseResult.success(user);
+
+        }
+        return  ResponseResult.failure(ResultCode.USER_SIGN_IN_FAIL);
     }
 }
