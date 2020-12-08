@@ -173,6 +173,7 @@
 					.post(url,data)
 					.then(res =>{
 						this.loading=false;
+						if(res){
 						console.log(res);
 						//修改vuex的state.持久化存储
 						this.$store.commit('login',res);
@@ -190,15 +191,22 @@
 									return;
 								}
 							}
-						})
-					}).catch(err=>{
+						});
+						}else{
+							uni.showModel({
+								title:'登录失败'
+							});
+							return;
+							}
+					})
+					.catch(err=>{
 						//登录失败
 						this.loading = false;
 					});
 			}
 			
 		}
-	}
+	};
 </script>
 
 <style>

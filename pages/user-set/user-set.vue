@@ -68,7 +68,7 @@
 							uni.clearStorageSync();
 							this.getStorageInfo();
 							uni.showToast({
-								title: '清楚成功',
+								title: '清除成功',
 								icon: 'none'
 							});
 						}

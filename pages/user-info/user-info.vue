@@ -3,7 +3,7 @@
 		<uni-list-item title="头像" @click="changeAvatar">
 	<view class="flex align-center" slot="right">
 		<image
-		:src="avatar? avatar:'/static/default.jpg'"
+		:src="user.avatar? user.avatar:'/static/default.jpg'"
 		style="width: 100rpx;height: 100rpx;"
 		class="rounded-circle"></image>
 		<text class="iconfont icon-bianji1 ml-2"></text>
@@ -17,7 +17,7 @@
 	</uni-list-item>
 	<uni-list-item title="性别" @click="changeGender">
 		<view class="flex align-center" slot="right">
-			<text>{{genderText}}</text>
+			<text>{{ genderText }}</text>
 			<text class="iconfont icon-bianji1 ml-2"></text>
 		</view>
 	</uni-list-item>
@@ -56,6 +56,7 @@
 	import uniListItem from '@/components/uni-ui/uni-list-item/uni-list-item.vue';
 	import mpvueCityPicker from '@/components/uni-ui/mpvue-citypicker/mpvueCityPicker.vue';
 	import { mapState } from 'vuex';
+	
 export default {
 		components: {
 			uniListItem,
@@ -65,7 +66,6 @@ export default {
 			return {
 				themeColor:'#007AFF',
 				cityPickerValueDefault:[0,0,1],
-				avatar:'https://hfh.oss-cn-beijing.aliyuncs.com/2.jpg',
 				pickerText:'',
 				nickname:'',
 				gender:0,
@@ -126,20 +126,33 @@ export default {
 					sourceType:['album','camera'],
 					success:res=>{
 						//本地文件地址
-						console.log(res.tempFilePaths[0]);
+						//console.log(res.tempFilePaths[0]);
 						this.$H
 						.upload('/user/upload',{
 							filePath:res.tempFilePaths[0],
 							name:'file' //一定要和后端接口的入参名字一样
 						})
 						.then(result=>{
-							console.log(result.data);
+							//console.log(result.data);
+							let data={
+								id:this.user.id,
+								phone:this.user.phone,
+								password:this.user.password,
+								nickname:this.user.nickname,
+								avatar:result.data,
+								gender:this.user.gender,
+								birthday:this.user.birthday,
+								address:this.user.address,createTime:this.createTime
+							};
+							this.$H.post('/user/update',data).then(res=>{
+								console.log(res);
+								this.$store.commit('editUserInfo',data);
 							uni.showToast({
 								title:'修改头像成功',
 								icon:'none'
+								});
 							});
-							this.avatar=result.data;
-						})
+							})
 						.catch(err=>{
 							console.log(err);
 						});
@@ -163,7 +176,28 @@ export default {
 				});
 			},
 			//提交
-			submit(){}
+			submit(){
+				let data={
+					id:this.user.id,
+					phone:this.user.phone,
+					password:this.user.password,
+					nickname:this.nickname,
+					avatar:this.user.avatar,
+					gender:this.gender,
+					birthday:this.birthday,
+					address:this.pickerText,
+					createTime:this.user.createTime
+				};
+				console.log(data+"333333333333333333333333")
+				this.$H.post('/user/update',data).then(res=>{
+					console.log(res);
+					this.$store.commit('editUserInfo',data);
+					uni.showToast({
+						title:'修改资料成功',
+						icon:'none'
+					});
+				});
+			}
 		}
 	};
 	

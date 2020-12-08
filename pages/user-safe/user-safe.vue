@@ -1,8 +1,8 @@
 <template>
 	<view>
-		<uni-list-item title="账号与安全" @click="open('changepassword')"></uni-list-item>
-		<uni-list-item title="资料编辑"></uni-list-item>
-		<uni-list-item title="账号与安全"></uni-list-item>
+		<uni-list-item title="修改密码" @click="open('user-password')"></uni-list-item>
+		<uni-list-item title="绑定手机"></uni-list-item>
+		<uni-list-item title="绑定微信"></uni-list-item>
 		<uni-list-item title="绑定QQ"></uni-list-item>
 	</view>
 </template>
@@ -21,11 +21,12 @@
 			}
 		},
 		methods: {
+			//根据path跳转路径
 			open(path) {
 				uni.navigateTo({
-					url: `../${path}/${path}`
+					url:`../${path}/${path}`
 				});
-			},
+			}
 			
 		}
 	}
