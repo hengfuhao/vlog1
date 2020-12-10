@@ -1,5 +1,6 @@
 package com.gem.vlog.service;
 
+import com.gem.vlog.model.dto.CaptchaLoginDto;
 import com.gem.vlog.model.dto.LoginDto;
 import com.gem.vlog.model.dto.PhoneLoginDto;
 import com.gem.vlog.model.dto.WxLoginDto;
@@ -57,4 +58,10 @@ public interface UserService {
      */
     User wxLogin(WxLoginDto wxLoginDto);
 
+    /**
+     *
+     * @param captchaLoginDto 入参
+     * @return User
+     */
+    User captchaLogin(CaptchaLoginDto captchaLoginDto);
 }

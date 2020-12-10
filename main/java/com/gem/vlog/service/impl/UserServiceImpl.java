@@ -5,6 +5,7 @@ import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import com.gem.vlog.common.Gender;
 import com.gem.vlog.mapper.UserMapper;
+import com.gem.vlog.model.dto.CaptchaLoginDto;
 import com.gem.vlog.model.dto.LoginDto;
 import com.gem.vlog.model.dto.PhoneLoginDto;
 import com.gem.vlog.model.dto.WxLoginDto;
@@ -181,4 +182,22 @@ public class UserServiceImpl implements UserService {
         return  user;
     }
 
+    @Override
+    public User captchaLogin(CaptchaLoginDto captchaLoginDto) {
+        boolean flag = redisService.existsKey(captchaLoginDto.getPhone());
+        if (flag) {
+            String saveCode = redisService.getValue(captchaLoginDto.getPhone(), String.class);
+            //验证码一致
+            if (saveCode.equalsIgnoreCase(captchaLoginDto.getCaptcha())) {
+                User user = getUser(captchaLoginDto.getPhone());
+                if (user != null) {
+                    //密码也正确
+                    if (user.getPassword().equals(DigestUtils.md5Hex(captchaLoginDto.getPassword()))) {
+                        return user;
+                    }
+                }
+            }
+        }
+        return null;
+    }
 }

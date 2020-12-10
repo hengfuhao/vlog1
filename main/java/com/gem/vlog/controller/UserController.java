@@ -3,6 +3,7 @@ package com.gem.vlog.controller;
 
 import com.gem.vlog.common.ResponseResult;
 import com.gem.vlog.common.ResultCode;
+import com.gem.vlog.model.dto.CaptchaLoginDto;
 import com.gem.vlog.model.dto.LoginDto;
 import com.gem.vlog.model.dto.PhoneLoginDto;
 import com.gem.vlog.model.dto.WxLoginDto;
@@ -114,6 +115,16 @@ public class UserController {
             return ResponseResult.success(user);
 
         }
-        return  ResponseResult.failure(ResultCode.USER_SIGN_IN_FAIL);
+        return ResponseResult.failure(ResultCode.USER_SIGN_IN_FAIL);
+    }
+
+    @PostMapping(value = "/captchaLogin")
+    public ResponseResult captchaLogin(@RequestBody CaptchaLoginDto captchaLoginDto) {
+        log.info("captchaLoginDto:" + captchaLoginDto);
+        User user = userService.captchaLogin(captchaLoginDto);
+        if (user != null) {
+            return ResponseResult.success(user);
+        }
+        return ResponseResult.failure(ResultCode.USER_SIGN_IN_FAIL);
     }
 }
