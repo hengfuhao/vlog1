@@ -1,6 +1,6 @@
 package com.gem.vlog.mapper;
 
-import com.gem.vlog.VlogApplication;
+import com.gem.vlog.VlogApiApplication;
 import com.gem.vlog.common.Gender;
 import com.gem.vlog.model.entity.User;
 import lombok.extern.slf4j.Slf4j;
@@ -14,9 +14,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-@SpringBootTest(classes = VlogApplication.class)
+@SpringBootTest(classes = VlogApiApplication.class)
 @Slf4j
 class UserMapperTest {
     //注入UserMapper的实例

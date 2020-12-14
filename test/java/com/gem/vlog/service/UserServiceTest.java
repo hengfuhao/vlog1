@@ -1,7 +1,7 @@
 package com.gem.vlog.service;
 
 
-import com.gem.vlog.VlogApplication;
+import com.gem.vlog.VlogApiApplication;
 import com.gem.vlog.common.Gender;
 import com.gem.vlog.model.dto.LoginDto;
 import com.gem.vlog.model.entity.User;
@@ -13,11 +13,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import javax.annotation.Resource;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest(classes = VlogApplication.class)
+@SpringBootTest(classes = VlogApiApplication.class)
 @Slf4j
 class UserServiceTest {
 
