@@ -5,22 +5,19 @@ import goTo from 'vuetify/es5/services/goto'
 import Layout from '../views/Layout.vue'
 import Index from '../views/Index.vue'
 
-
 Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
-    name: 'Layout',
-    component: Layout,
-    redirect: '/index',
+    path: '/index',
+    name: 'Index',
+    component: Index
+  },
+  {
+    path:'/',
+    component:Layout,
+    redirectTo:'/tags',
     children: [
-      {
-        path: 'index',
-        name: 'Index',
-        component: Index
-      },
-     
       {
         path: '/news',
         name: 'News',
@@ -32,9 +29,52 @@ const routes = [
         component: () => import('../views/Message.vue')
       },
       {
+        path:'category',
+        name:'Category',
+        component:()=>import('../views/Category.vue')
+      },
+      {
+        path:'achieve',
+        name:'Acheieve',
+        component:()=>import('../views/Achieve.vue')
+      },
+      {
+        path:'tag',
+        name:'Tag',
+        component:()=>import('../views/Tag.vue')
+      },
+      {
+        path:'friend',
+        name:'Friend',
+        component:()=>import('../views/Friend.vue')
+      },
+      {
         path: '/my',
         name: 'My',
-        component: () => import('../views/My.vue')
+        component: () => import('../views/My.vue'),
+        redirect:'/my/userinfo',
+        children:[
+          {
+            path:'userinfo',
+            name:'UserInfo',
+            component:() =>import('../views/UserInfo.vue')
+          },
+          {
+            path:'usersafe',
+            name:'UserSafe',
+            component:() =>import('../views/UserSafe.vue')
+          },
+          {
+            path:'feedback',
+            name:'FeedBack',
+            component:() =>import('../views/FeedBack.vue')
+          }, 
+           {
+            path:'about',
+            name:'About',
+            component:() =>import('../views/About.vue')
+          }
+        ]
       }
     ]
   },
