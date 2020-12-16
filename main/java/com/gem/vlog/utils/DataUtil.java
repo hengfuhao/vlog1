@@ -17,7 +17,7 @@ public class DataUtil {
                     Card.builder()
                             .id(1)
                             .title("Java学习")
-                            .bgImg("https://hfh.oss-cn-beijing.aliyuncs.com/background/1.png")
+                            .bgImg("https://hfh.oss-cn-beijing.aliyuncs.com/background/7.png")
                             .content("Java学习")
                             .build(),
                     Card.builder()
