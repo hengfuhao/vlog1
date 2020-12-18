@@ -25,13 +25,13 @@ public class ArticleServiceTest {
 
     @Test
     public void insertArticles() {
-        ThreadPoolExecutor executor=new ThreadPoolExecutor(4,8,5,
+        ThreadPoolExecutor executor = new ThreadPoolExecutor(4, 8, 5,
                 TimeUnit.SECONDS,
                 new LinkedBlockingQueue<>(),
                 Executors.defaultThreadFactory(),
                 new ThreadPoolExecutor.AbortPolicy());
         Future<List<Article>> future = executor.submit(articleTask);
-        List<Article> articles=null;
+        List<Article> articles = null;
         try {
             articles = future.get();
         } catch (InterruptedException | ExecutionException e) {
@@ -42,9 +42,20 @@ public class ArticleServiceTest {
     }
 
     @Test
-    public void selectAllByPage() {
+    public void selectByPage() {
         PageInfo<Article> articlePageInfo = articleService.selectByPage(1, 9, 1);
         System.out.println(articlePageInfo.getList().size());
+    }
 
+    @Test
+    void getRecommend() {
+        List<Article> recommendArticles = articleService.getRecommendArticles(2);
+        recommendArticles.forEach(System.out::println);
+    }
+
+    @Test
+    void getDetail() {
+        Article detail = articleService.getDetail("0079f50f30c74c619846f57f425d3eb7");
+        System.out.println(detail);
     }
 }

@@ -15,16 +15,16 @@ import java.util.List;
  * @Date 2020/12/15
  **/
 public interface ArticleTagMapper {
-
     /**
      * 批量插入
      *
      * @param articleTagList 集合
      */
-    @Insert({"<script>",
+    @Insert({
+            "<script>",
             "INSERT INTO t_article_tag (article_id,tag_name) VALUES ",
-            "<foreach collection='articleList' item='item' index='index' separator=','>",
-            "(#{item.articleId},#{item.itemName})",
+            "<foreach collection='articleTagList' item='item' index='index' separator=','>",
+            "(#{item.articleId}, #{item.tagName})",
             "</foreach>",
             "</script>"
     })
@@ -33,9 +33,9 @@ public interface ArticleTagMapper {
     /**
      * 查询指定文章的所有标签
      *
-     * @param articleId 文章Id
+     * @param articleId 文章id
      * @return List<ArticleTag>
      */
-    @Select("SELECT * FROM t_article_tag WHERE article_id=#{articleId}")
+    @Select("SELECT * FROM t_article_tag WHERE article_id=#{articleId} ")
     List<ArticleTag> selectByArticleId(@Param("articleId") String articleId);
 }

@@ -29,6 +29,8 @@ public class Article {
     private String content;
     private String url;
     private LocalDate publishDate;
-    private LocalDateTime createTime;
+    private String totalWords;
+    private  Integer duration;
+    private  Integer pageView;
     private List<ArticleTag> tagList;
 }
